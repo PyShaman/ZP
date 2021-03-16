@@ -31,7 +31,8 @@ class IrregularWindow(QtWidgets.QWidget):
         self.oldPos = event.globalPos()
 
 
-a = QtWidgets.QApplication([])
-rw = IrregularWindow()
-rw.show()
-a.exec_()
+if __name__ == '__main__':
+    a = QtWidgets.QApplication([])
+    rw = IrregularWindow()
+    rw.show()
+    a.exec_()
