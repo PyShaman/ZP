@@ -1,8 +1,5 @@
-from PySide2.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt)
-from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
-    QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
-    QRadialGradient)
+from PySide2.QtCore import (QCoreApplication, QMetaObject, QRect, Qt)
+from PySide2.QtGui import QFont
 from PySide2.QtWidgets import *
 
 
@@ -20,10 +17,10 @@ class Ui_SplashScreen(object):
         self.dropShadowFrame = QFrame(self.centralwidget)
         self.dropShadowFrame.setObjectName(u"dropShadowFrame")
         self.dropShadowFrame.setStyleSheet(u"QFrame {	\n"
-"	background-color: rgb(56, 58, 89);	\n"
-"	color: rgb(220, 220, 220);\n"
-"	border-radius: 10px;\n"
-"}")
+                                           "	background-color: rgb(56, 58, 89);	\n"
+                                           "	color: rgb(220, 220, 220);\n"
+                                           "	border-radius: 10px;\n"
+                                           "}")
         self.dropShadowFrame.setFrameShape(QFrame.StyledPanel)
         self.dropShadowFrame.setFrameShadow(QFrame.Raised)
         self.label_title = QLabel(self.dropShadowFrame)
@@ -48,17 +45,17 @@ class Ui_SplashScreen(object):
         self.progressBar.setObjectName(u"progressBar")
         self.progressBar.setGeometry(QRect(50, 280, 561, 23))
         self.progressBar.setStyleSheet(u"QProgressBar {\n"
-"	\n"
-"	background-color: rgb(98, 114, 164);\n"
-"	color: rgb(200, 200, 200);\n"
-"	border-style: none;\n"
-"	border-radius: 10px;\n"
-"	text-align: center;\n"
-"}\n"
-"QProgressBar::chunk{\n"
-"	border-radius: 10px;\n"
-"	background-color: qlineargradient(spread:pad, x1:0, y1:0.511364, x2:1, y2:0.523, stop:0 rgba(254, 121, 199, 255), stop:1 rgba(170, 85, 255, 255));\n"
-"}")
+                                       "	\n"
+                                       "	background-color: rgb(98, 114, 164);\n"
+                                       "	color: rgb(200, 200, 200);\n"
+                                       "	border-style: none;\n"
+                                       "	border-radius: 10px;\n"
+                                       "	text-align: center;\n"
+                                       "}\n"
+                                       "QProgressBar::chunk{\n"
+                                       "	border-radius: 10px;\n"
+                                       "	background-color: qlineargradient(spread:pad, x1:0, y1:0.511364, x2:1, y2:0.523, stop:0 rgba(254, 121, 199, 255), stop:1 rgba(170, 85, 255, 255));\n"
+                                       "}")
         self.progressBar.setValue(24)
         self.label_loading = QLabel(self.dropShadowFrame)
         self.label_loading.setObjectName(u"label_loading")
@@ -77,21 +74,17 @@ class Ui_SplashScreen(object):
         font3.setPointSize(10)
         self.label_credits.setFont(font3)
         self.label_credits.setStyleSheet(u"color: rgb(98, 114, 164);")
-        self.label_credits.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
-
+        self.label_credits.setAlignment(Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter)
         self.verticalLayout.addWidget(self.dropShadowFrame)
-
         SplashScreen.setCentralWidget(self.centralwidget)
-
         self.retranslateUi(SplashScreen)
-
         QMetaObject.connectSlotsByName(SplashScreen)
-    # setupUi
 
     def retranslateUi(self, SplashScreen):
         SplashScreen.setWindowTitle(QCoreApplication.translate("SplashScreen", u"MainWindow", None))
         self.label_title.setText(QCoreApplication.translate("SplashScreen", u"<strong>YOUR</strong> APP NAME", None))
-        self.label_description.setText(QCoreApplication.translate("SplashScreen", u"<strong>APP</strong> DESCRIPTION", None))
+        self.label_description.setText(
+            QCoreApplication.translate("SplashScreen", u"<strong>APP</strong> DESCRIPTION", None))
         self.label_loading.setText(QCoreApplication.translate("SplashScreen", u"loading...", None))
-        self.label_credits.setText(QCoreApplication.translate("SplashScreen", u"<strong>Created</strong>: Zuzanna Bek", None))
-    # retranslateUi
+        self.label_credits.setText(
+            QCoreApplication.translate("SplashScreen", u"<strong>Created</strong>: Zuzanna Bek", None))

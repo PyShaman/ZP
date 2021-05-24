@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>752</width>
+    <width>824</width>
     <height>546</height>
    </rect>
   </property>
@@ -25,6 +25,13 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Menu</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="pushButton_4">
          <property name="minimumSize">
           <size>
@@ -38,6 +45,7 @@
 	background-color: rgb(56, 58, 89);
 	color: rgb(220, 220, 220);
 	border-radius: 10px;
+    padding: 5px 10px
 }</string>
          </property>
          <property name="text">
@@ -59,6 +67,7 @@
 	background-color: rgb(56, 58, 89);
 	color: rgb(220, 220, 220);
 	border-radius: 10px;
+    padding: 5px 10px
 }</string>
          </property>
          <property name="text">
@@ -80,6 +89,7 @@
 	background-color: rgb(56, 58, 89);
 	color: rgb(220, 220, 220);
 	border-radius: 10px;
+    padding: 5px 10px
 }</string>
          </property>
          <property name="text">
@@ -101,6 +111,7 @@
 	background-color: rgb(56, 58, 89);
 	color: rgb(220, 220, 220);
 	border-radius: 10px;
+    padding: 5px 10px
 }</string>
          </property>
          <property name="text">

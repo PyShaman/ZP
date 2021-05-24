@@ -1,0 +1,12 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>icons/big_buka.png</file>
+    <file>icons/buka.png</file>
+    <file>icons/error.png</file>
+    <file>icons/minimize.png</file>
+    <file>icons/notes.png</file>
+    <file>icons/settings.png</file>
+    <file>icons/time.png</file>
+    <file>icons/list.png</file>
+  </qresource>
+</RCC>

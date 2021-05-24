@@ -1,128 +1,116 @@
-# Funkcje aplikacji:
-# Możliwość założenia swojego profilu (ok)
-# Liczenie czasu spędzonego przy komputerze, od momentu wlaczenia aplikacji, po zakonczeniu czas jest zapisywany, a licznik resetowany (ok)
-# Możliwość tworzenia notatek (ok)
-# Możliwość tworzenia tasków (w jakim celu siadało się do komputera, czy udało się go osiągnąć, ile czasu spędziło się przy każdym z zadań) (Zuzia musi dopracowac
-# koncepcje notatek)
-# Możliwość określenia nastroju przed korzystaniem z komputera, określenie nastroju po i podanie powodu (ok)
-# Przypomnienia (czas spędzony przy komputerze, ćwiczenia fizyczne, patrzenie w dal, mruganie, picie, korzystanie z toalety, spacer, rozciąganie się)
-# Możliwość wybrania poziomu restrykcji (każdy posiada swoją postać i dostosowaną kolorystycznie skórkę) (ok)
+import sys
+from pathlib import Path
+from PySide2 import QtCore, QtWidgets
+from PySide2.QtCore import QPropertyAnimation
+from PySide2.QtGui import QColor, QPixmap
+from PySide2.QtUiTools import loadUiType
+from PySide2.QtWidgets import *
 
-import datetime
-import time
+from ui_splash_screen import Ui_SplashScreen
+COUNTER = 0
+WINDOWS_SIZE = 0
 
 
-class User:
+# FORM_CLASS, _ = loadUiType(resource_path("zuzia_test.ui"))
+FORM_CLASS, _ = loadUiType(str(Path("zuzia_main_window.ui")))
+
+
+class Main(QMainWindow, FORM_CLASS):
+    def __init__(self):
+        QMainWindow.__init__(self)
+        self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        self.setupUi(self)
+        self.ui_buttons()
+        self.main_header.mouseMoveEvent = self.move_window
+
+    def move_window(self, e):
+        if not QMainWindow.isMaximized(self):
+            if e.buttons() == QtCore.Qt.LeftButton:
+
+                self.clickPosition = e.globalPos()
+                self.move(self.pos() + e.globalPos() - self.clickPosition)
+
+                e.accept()
+
+    def ui_buttons(self):
+        self.minimize_btn.clicked.connect(lambda: self.showMinimized())
+        self.close_btn.clicked.connect(lambda: self.close())
+        self.menu_btn.clicked.connect(lambda: self.slide_left_side_menu())
+        # self.pushButton_4.clicked.connect(self.do_smth)
+        # self.pushButton_3.clicked.connect(self.display_image)
+
+    def slide_left_side_menu(self):
+        width = self.left_side_menu.width()
+        if width == 85:
+            new_width = 250
+        else:
+            new_width = 85
+
+        self.animation = QPropertyAnimation(self.left_side_menu, b'minimumWidth')
+        self.animation.setDuration(250)
+        self.animation.setStartValue(width)
+        self.animation.setEndValue(new_width)
+        self.animation.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
+        self.animation.start()
+
+    def mouse_press_event(self, event):
+        self.clickPosition = event.globalPos()
+
+    # def do_smth(self):
+    #     self.pushButton_4.setStyleSheet("""
+    #     QPushButton
+    #     {
+    #     font: 16pt "Segoe UI";
+    #     background-color : rgb(220, 0, 0);
+    #     color: rgb(220, 220, 220);
+    #     border-radius: 10px;
+    #     }
+    #     """
+    #                                     )
+    #
+    # def display_image(self):
+    #     pix = QPixmap("pika2.png").scaled(450, 450)
+    #     item = QGraphicsPixmapItem(pix)
+    #     scene = QtWidgets.QGraphicsScene(self)
+    #     scene.addItem(item)
+    #     self.graphicsView.setScene(scene)
+
+
+class SplashScreen(QMainWindow):
 
     def __init__(self):
-        pass
+        QMainWindow.__init__(self)
+        self.ui = Ui_SplashScreen()
+        self.ui.setupUi(self)
+        self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        self.shadow = QGraphicsDropShadowEffect(self)
+        self.shadow.setBlurRadius(20)
+        self.shadow.setXOffset(0)
+        self.shadow.setYOffset(0)
+        self.shadow.setColor(QColor(0, 0, 0, 60))
+        self.ui.dropShadowFrame.setGraphicsEffect(self.shadow)
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.progress)
+        self.timer.start(35)
+        self.ui.label_description.setText("<strong>WELCOME</strong> TO MY APPLICATION")
+        QtCore.QTimer.singleShot(1500, lambda: self.ui.label_description.setText("<strong>LOADING</strong> DATABASE"))
+        QtCore.QTimer.singleShot(3000, lambda: self.ui.label_description.setText("<strong>LOADING</strong> USER INTERFACE"))
+        self.show()
 
-    def create_user_profile(self):
-        """Funckcja odpowiedzialna za tworzenie nowego uzytkownika."""
-        pass
-
-    def delete_user_profile(self):
-        """Funkcja odpowiedzialna za usuwanie profilu uzytkownika."""
-        pass
-
-    def edit_user_profile(self):
-        """Funkcja odpowiedzialna za edycje profilu uzytkownika."""
-        pass
-
-
-class Timer:
-
-    def __init__(self):
-        pass
-
-    def start_timer(self):
-        """Funkcja odpowiedzialna za rozpoczecie liczenia czasu od momentu uruchomienia aplikacji."""
-        start_time = time.time()
-        return start_time
-
-    def stop_timer(self):
-        """Funkcja odpowiedzialna za zakonczenie liczenia czasu do momentu zamkniecia aplikacji."""
-        stop_time = time.time()
-        return stop_time
-
-    def save_timer_data(self, name, time_spent):
-        """Funkcja odpowiedzialna za zapisanie calkowitego czasu uzytkowania aplikacji do pliku (bazy)."""
-        timestamp = str(datetime.datetime.now().isoformat()).replace("T", " ")[:19]
-        file = open('timer.txt', 'a')
-        file.write(f'[+] {timestamp} [+] Uzytkownik {name} spedzil przed komputerem {time_spent}.\n')
-        file.close()
+    def progress(self):
+        global COUNTER
+        self.ui.progressBar.setValue(COUNTER)
+        if COUNTER > 100:
+            self.timer.stop()
+            self.main = Main()
+            self.main.show()
+            self.close()
+        COUNTER += 1
 
 
-class Notes:
-
-    def __init__(self):
-        pass
-
-    def create_new_note(self):
-        """Funkcja odpowiedzialna za tworzenie nowych notatek."""
-        pass
-
-    def delete_new_note(self):
-        """Funkcja odpowiedzialna za kasowanie istniejacych notatek."""
-        pass
-
-    def edit_note(self):
-        """Funkcja odpowiedzialna za edytowanie istniejacych notatek."""
-        pass
-
-    def save_note(self):
-        """Funkcja odpowiedzialna za zapisywanie notatek."""
-        pass
-
-
-class Mood:
-
-    def __init__(self):
-        pass
-
-    def initial_mood_status(self):
-        """Funkcja odpowiedzialna za okreslenie nastroju uzytkownika przed korzystaniem z komputera."""
-        pass
-
-    def final_mood_status(self):
-        """Funkcja odpowiedzialna za okreslenie nastroju uzytkownika po korzystaniu z komputera."""
-        pass
-
-    def user_mood_reason(self):
-        """Funkcja odpowiedzialna za opisanie nastroju uzytkownika po korzystaniu z komputera."""
-
-
-class Notifications:
-
-    def __init__(self):
-        pass
-
-    def create_notification(self):
-        """Funkcja odpowiedzialna za pojawienie sie okienka notyfikacji z odpowiednia informacja."""
-        pass
-
-
-class Restrictions:
-
-    def __init__(self):
-        pass
-
-    def light_restriction(self):
-        """Funkcja odpowiedzialna za leniwego ludzika."""
-        pass
-
-    def medium_restrictions(self):
-        """Funkcja odpowiedzialna za srednio leniwego ludzika."""
-        pass
-
-    def hard_restrictions(self):
-        """Funkcja odpowiedzialna za ludzika bezkompromisowego."""
-        pass
-
-
-if __name__ == '__main__':
-    timer = Timer()
-    t1 = timer.start_timer()
-    time.sleep(5)
-    t2 = timer.stop_timer()
-    timer.save_timer_data('Krzysio Ibisz', t2-t1)
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = SplashScreen()
+    sys.exit(app.exec_())
