@@ -1,0 +1,6 @@
+#9bc034 (zielony)
+#f25755 (łososiowy)
+#242225 (czarny)
+#87e89b (turkusowy)
+
+Font: Chiller

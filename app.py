@@ -7,10 +7,8 @@ from PySide2.QtUiTools import loadUiType
 from PySide2.QtWidgets import *
 
 from ui_splash_screen import Ui_SplashScreen
+
 COUNTER = 0
-WINDOWS_SIZE = 0
-
-
 # FORM_CLASS, _ = loadUiType(resource_path("zuzia_test.ui"))
 FORM_CLASS, _ = loadUiType(str(Path("zuzia_main_window.ui")))
 
@@ -22,16 +20,30 @@ class Main(QMainWindow, FORM_CLASS):
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setupUi(self)
         self.ui_buttons()
-        self.main_header.mouseMoveEvent = self.move_window
+        self.drag_pos = QtCore.QPoint()
+        self.title_bar.mouseMoveEvent = self.mouse_move_event
 
-    def move_window(self, e):
-        if not QMainWindow.isMaximized(self):
-            if e.buttons() == QtCore.Qt.LeftButton:
+    # def mouse_press_event(self, event):
+    #     self.drag_pos = event.globalPos()
 
-                self.clickPosition = e.globalPos()
-                self.move(self.pos() + e.globalPos() - self.clickPosition)
+    def mouse_move_event(self, event):
+        if event.buttons() == QtCore.Qt.LeftButton:
+            self.move(self.pos() + event.globalPos() - self.drag_pos)
+            self.drag_pos = event.globalPos()
+            event.accept()
 
-                e.accept()
+        print(self.drag_pos)
+
+        # self.main_header.mouseMoveEvent = self.move_window()
+
+    # def move_window(self):
+    #     if not QMainWindow.isMaximized(self):
+    #         if self.buttons() == QtCore.Qt.LeftButton:
+    #
+    #             self.clickPosition = self.globalPos()
+    #             self.move(self.pos() + self.globalPos() - self.clickPosition)
+    #
+    #             self.accept()
 
     def ui_buttons(self):
         self.minimize_btn.clicked.connect(lambda: self.showMinimized())
